@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App bewerten</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --card: #141420;
+      --accent: #6c5ce7;
+      --accent-light: #a29bfe;
+      --text: #f0f0f5;
+      --text-muted: #8888a0;
+      --border: rgba(255,255,255,0.06);
+      --glow: rgba(108, 92, 231, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .bg-grid {
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px; z-index: 0;
+    }
+    .bg-glow {
+      position: fixed; width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      z-index: 0; animation: pulse 6s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.15); }
+    }
+    .container {
+      position: relative; z-index: 1; text-align: center;
+      padding: 2rem; max-width: 440px; width: 100%;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero { animation: fadeUp 0.5s ease-out; }
+    .icon-wrap {
+      width: 88px; height: 88px; margin: 0 auto 1.5rem; border-radius: 22px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 32px rgba(108, 92, 231, 0.3);
+    }
+    .icon-wrap svg { width: 44px; height: 44px; fill: #fff; }
+    h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+    .subtitle { color: var(--text-muted); font-size: 1rem; line-height: 1.5; margin-bottom: 2rem; }
+    .stars { display: flex; justify-content: center; gap: 4px; margin-bottom: 2.5rem; }
+    .stars svg { width: 32px; height: 32px; fill: #fbbf24; filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.4)); }
+
+    .app-select { display: flex; flex-direction: column; gap: 12px; margin-bottom: 1rem; animation: fadeUp 0.5s ease-out 0.15s both; }
+    .app-card {
+      display: flex; align-items: center; gap: 16px; width: 100%; padding: 18px 20px;
+      border-radius: 16px; border: 1px solid var(--border); background: var(--card);
+      color: var(--text); font-family: inherit; font-size: 1rem; cursor: pointer;
+      text-decoration: none; transition: all 0.25s ease; text-align: left;
+    }
+    .app-card:hover {
+      background: rgba(108, 92, 231, 0.08); border-color: rgba(108, 92, 231, 0.25);
+      transform: translateY(-2px); box-shadow: 0 4px 20px rgba(108, 92, 231, 0.12);
+    }
+    .app-card-icon {
+      width: 52px; height: 52px; border-radius: 14px; display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0;
+      font-size: 1.4rem; font-weight: 700; color: #fff;
+    }
+    .app-card-icon.ding { background: linear-gradient(135deg, #e74c3c, #f39c12); }
+    .app-card-icon.bodo { background: linear-gradient(135deg, #00b894, #00cec9); }
+    .app-card-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+    .app-card-name { font-weight: 700; font-size: 1.05rem; }
+    .app-card-desc { font-size: 0.82rem; color: var(--text-muted); }
+    .app-card-arrow { flex-shrink: 0; color: var(--text-muted); transition: transform 0.2s ease, color 0.2s ease; }
+    .app-card:hover .app-card-arrow { transform: translateX(4px); color: var(--accent-light); }
+
+    .store-view { display: none; }
+    .store-view.active { display: block; animation: fadeUp 0.4s ease-out; }
+
+    .btn {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      width: 100%; padding: 16px 24px; border-radius: 14px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text); font-family: inherit; font-size: 1rem;
+      font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.2s ease;
+      margin-bottom: 12px;
+    }
+    .btn:hover {
+      background: rgba(108, 92, 231, 0.1); border-color: rgba(108, 92, 231, 0.3);
+      transform: translateY(-2px); box-shadow: 0 4px 20px rgba(108, 92, 231, 0.15);
+    }
+    .btn svg { width: 24px; height: 24px; flex-shrink: 0; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-light)); border-color: transparent; }
+    .btn-primary:hover { background: linear-gradient(135deg, #7c6df0, #b0a8fe); box-shadow: 0 4px 24px rgba(108, 92, 231, 0.35); }
+
+    .auto-msg {
+      display: none; margin-bottom: 1.5rem; padding: 10px 16px; border-radius: 10px;
+      background: rgba(108, 92, 231, 0.1); border: 1px solid rgba(108, 92, 231, 0.2);
+      font-size: 0.85rem; color: var(--accent-light);
+    }
+    .privacy-note { margin-top: 2rem; font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; opacity: 0.7; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <div class="container">
+    <!-- Hero: only visible on app selection screen -->
+    <div class="hero" id="hero">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <h1>App bewerten</h1>
+      <p class="subtitle">Deine Bewertung hilft uns, die App noch besser zu machen.</p>
+      <div class="stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+    </div>
+
+    <!-- App Selection -->
+    <div id="view-select">
+      <div class="app-select">
+        <button class="app-card" onclick="selectApp('ding')">
+          <div class="app-card-icon ding">UD</div>
+          <div class="app-card-info">
+            <span class="app-card-name">Unser Ding</span>
+            <span class="app-card-desc">DING Verkehrsverbund</span>
+          </div>
+          <svg class="app-card-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <button class="app-card" onclick="selectApp('bodo')">
+          <div class="app-card-icon bodo">DB</div>
+          <div class="app-card-info">
+            <span class="app-card-name">deinbodo</span>
+            <span class="app-card-desc">bodo Verkehrsverbund</span>
+          </div>
+          <svg class="app-card-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Store Buttons (minimal view when direct-linked) -->
+    <div id="view-store" class="store-view">
+      <div class="auto-msg" id="auto-msg">Du wirst automatisch weitergeleitet…</div>
+
+      <a class="btn btn-primary" id="btn-ios" href="#" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Im App Store bewerten
+      </a>
+      <a class="btn" id="btn-android" href="#" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 1.42l8.37 8.37-8.37 8.38c-.36-.35-.59-.85-.59-1.42V2.84c0-.57.23-1.07.59-1.42m10.02 7.02L4.98.22c.45-.15.97-.08 1.5.22l9.08 5.15-2.36 2.85m0 7.12l2.36 2.85-9.08 5.15c-.53.3-1.05.37-1.5.22l8.22-8.22m3.03-3.56l2.58 1.47c.97.55.97 1.51 0 2.06l-2.58 1.47-2.63-2.5 2.63-2.5z"/></svg>
+        Im Play Store bewerten
+      </a>
+    </div>
+
+    <p class="privacy-note">
+      Diese Seite verwendet keine Cookies, kein Tracking und speichert keine personenbezogenen Daten. Die Weiterleitung erfolgt ausschließlich clientseitig.
+    </p>
+  </div>
+
+  <script>
+    var apps = {
+      ding: {
+        name: 'Unser Ding',
+        ios: 'https://apps.apple.com/app/id6480043965?action=write-a-review',
+        android: 'https://play.google.com/store/apps/details?id=de.ding.unserding'
+      },
+      bodo: {
+        name: 'deinbodo',
+        ios: 'https://apps.apple.com/app/id6480118893?action=write-a-review',
+        android: 'https://play.google.com/store/apps/details?id=de.bodo.deinbodo'
+      }
+    };
+
+    var ua = navigator.userAgent || '';
+    var isIOS = /iPhone|iPad|iPod/i.test(ua);
+    var isAndroid = /Android/i.test(ua);
+
+    function selectApp(key, isDirectLink) {
+      var app = apps[key];
+      if (!app) return;
+
+      document.getElementById('btn-ios').href = app.ios;
+      document.getElementById('btn-android').href = app.android;
+
+      // Direct link via URL → minimal: only buttons + privacy note
+      if (isDirectLink) {
+        document.getElementById('hero').classList.add('hidden');
+      }
+
+      document.getElementById('view-select').classList.add('hidden');
+      document.getElementById('view-store').classList.add('active');
+
+      if (isIOS || isAndroid) {
+        document.getElementById('auto-msg').style.display = 'block';
+        setTimeout(function() {
+          window.location.href = isIOS ? app.ios : app.android;
+        }, 1500);
+      }
+    }
+
+    // URL-based app selection: ?app=ding or ?app=bodo or #ding or #bodo
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var appKey = params.get('app') || window.location.hash.replace('#', '');
+      if (appKey && apps[appKey]) {
+        selectApp(appKey, true);
+      }
+    })();
+  </script>
+</body>
+</html>
