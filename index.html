@@ -84,6 +84,7 @@
     }
     .app-card-icon.ding { background: linear-gradient(135deg, #e74c3c, #f39c12); }
     .app-card-icon.bodo { background: linear-gradient(135deg, #00b894, #00cec9); }
+    .app-card-icon.mova { background: linear-gradient(135deg, #0984e3, #74b9ff); }
     .app-card-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
     .app-card-name { font-weight: 700; font-size: 1.05rem; }
     .app-card-desc { font-size: 0.82rem; color: var(--text-muted); }
@@ -157,6 +158,14 @@
           </div>
           <svg class="app-card-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
+        <button class="app-card" onclick="selectApp('mova')">
+          <div class="app-card-icon mova">MA</div>
+          <div class="app-card-info">
+            <span class="app-card-name">movA</span>
+            <span class="app-card-desc">ASEAG &middot; eezy.nrw</span>
+          </div>
+          <svg class="app-card-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
       </div>
     </div>
 
@@ -190,6 +199,11 @@
         name: 'deinbodo',
         ios: 'https://apps.apple.com/app/id6480118893?action=write-review',
         android: 'https://play.google.com/store/apps/details?id=de.bodo.deinbodo'
+      },
+      mova: {
+        name: 'movA',
+        ios: 'https://apps.apple.com/app/id1481564591?action=write-review',
+        android: 'https://play.google.com/store/apps/details?id=de.aseag.mova'
       }
     };
 
@@ -220,7 +234,7 @@
       }
     }
 
-    // URL-based app selection: ?app=ding or ?app=bodo or #ding or #bodo
+    // URL-based app selection: ?app=ding|bodo|mova or #ding|#bodo|#mova
     (function() {
       var params = new URLSearchParams(window.location.search);
       var appKey = params.get('app') || window.location.hash.replace('#', '');
