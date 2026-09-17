@@ -148,3 +148,118 @@
     <div id="view-select">
       <div class="app-select">
         <button class="app-card" onclick="selectApp('ding')">
+          <div class="app-card-icon ding">UD</div>
+          <div class="app-card-info">
+            <span class="app-card-name">Unser Ding</span>
+            <span class="app-card-desc">DING Verkehrsverbund</span>
+          </div>
+          <svg class="app-card-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <button class="app-card" onclick="selectApp('bodo')">
+          <div class="app-card-icon bodo">DB</div>
+          <div class="app-card-info">
+            <span class="app-card-name">deinbodo</span>
+            <span class="app-card-desc">bodo Verkehrsverbund</span>
+          </div>
+          <svg class="app-card-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <button class="app-card" onclick="selectApp('mova')">
+          <div class="app-card-icon mova">MA</div>
+          <div class="app-card-info">
+            <span class="app-card-name">movA</span>
+            <span class="app-card-desc">ASEAG &middot; eezy.nrw</span>
+          </div>
+          <svg class="app-card-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <button class="app-card" onclick="selectApp('redy')">
+          <div class="app-card-icon redy">RE</div>
+          <div class="app-card-info">
+            <span class="app-card-name">redy</span>
+            <span class="app-card-desc">Rheinbahn</span>
+          </div>
+          <svg class="app-card-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Store Buttons (minimal view when direct-linked) -->
+    <div id="view-store" class="store-view">
+      <div class="auto-msg" id="auto-msg">Du wirst automatisch weitergeleitet…</div>
+
+      <a class="btn btn-primary" id="btn-ios" href="#" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Im App Store bewerten
+      </a>
+      <a class="btn" id="btn-android" href="#" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 1.42l8.37 8.37-8.37 8.38c-.36-.35-.59-.85-.59-1.42V2.84c0-.57.23-1.07.59-1.42m10.02 7.02L4.98.22c.45-.15.97-.08 1.5.22l9.08 5.15-2.36 2.85m0 7.12l2.36 2.85-9.08 5.15c-.53.3-1.05.37-1.5.22l8.22-8.22m3.03-3.56l2.58 1.47c.97.55.97 1.51 0 2.06l-2.58 1.47-2.63-2.5 2.63-2.5z"/></svg>
+        Im Play Store bewerten
+      </a>
+    </div>
+
+    <p class="privacy-note">
+      Diese Seite verwendet keine Cookies, kein Tracking und speichert keine personenbezogenen Daten. Die Weiterleitung erfolgt ausschließlich clientseitig.
+    </p>
+  </div>
+
+  <script>
+    var apps = {
+      ding: {
+        name: 'Unser Ding',
+        ios: 'https://apps.apple.com/app/id6480043965?action=write-review',
+        android: 'https://play.google.com/store/apps/details?id=de.ding.unserding'
+      },
+      bodo: {
+        name: 'deinbodo',
+        ios: 'https://apps.apple.com/app/id6480118893?action=write-review',
+        android: 'https://play.google.com/store/apps/details?id=de.bodo.deinbodo'
+      },
+      mova: {
+        name: 'movA',
+        ios: 'https://apps.apple.com/app/id1481564591?action=write-review',
+        android: 'https://play.google.com/store/apps/details?id=de.aseag.mova'
+      },
+      redy: {
+        name: 'redy',
+        ios: 'https://apps.apple.com/app/id1560848463?action=write-review',
+        android: 'https://play.google.com/store/apps/details?id=com.rheinbahn.redy'
+      }
+    };
+
+    var ua = navigator.userAgent || '';
+    var isIOS = /iPhone|iPad|iPod/i.test(ua);
+    var isAndroid = /Android/i.test(ua);
+
+    function selectApp(key, isDirectLink) {
+      var app = apps[key];
+      if (!app) return;
+
+      document.getElementById('btn-ios').href = app.ios;
+      document.getElementById('btn-android').href = app.android;
+
+      // Direct link via URL → minimal: only buttons + privacy note
+      if (isDirectLink) {
+        document.getElementById('hero').classList.add('hidden');
+      }
+
+      document.getElementById('view-select').classList.add('hidden');
+      document.getElementById('view-store').classList.add('active');
+
+      if (isIOS || isAndroid) {
+        document.getElementById('auto-msg').style.display = 'block';
+        setTimeout(function() {
+          window.location.href = isIOS ? app.ios : app.android;
+        }, 1500);
+      }
+    }
+
+    // URL-based app selection: ?app=ding|bodo|mova|redy or #ding|#bodo|#mova|#redy
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var appKey = params.get('app') || window.location.hash.replace('#', '');
+      if (appKey && apps[appKey]) {
+        selectApp(appKey, true);
+      }
+    })();
+  </script>
+</body>
+</html>
